@@ -1,0 +1,21 @@
+<li class="nav-item active " >
+	<a class="nav-link btn" (click)="newTablero()" href="#">
+		<i class="fas fa-fw fa-plus"></i>
+		<span>Agregar tablero</span></a>
+</li>
+
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+	Tableros
+</div>
+
+
+<!-- Nav Item - Tables -->
+<li class="nav-item" *ngFor='let tbl of tableros | async'>
+	<a class="nav-link" (click)="loadTablero(tbl.id)" href="#" >
+		<i class="fas fa-fw fa-table"></i>
+		<span>{{ tbl.name }}</span></a>
+</li>

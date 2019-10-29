@@ -1,0 +1,79 @@
+<table class="table w-100" cellspacing="0" rowspacing="2" width="100%">
+
+   <thead>
+      <th class="text-center"></th>
+      <th class="text-center">Reporta</th>
+      <th class="text-center">Atiende</th>
+      <th class="text-center">Estatus</th>
+      <th class="text-center">Fecha Fin</th>
+   </thead>
+   <tbody>
+      <tr class="bg-white" *ngFor="let task of status.tasks">
+         <td class="cell-task " title="{{task.name}}">
+            {{task.name}}
+         </td>
+         <td class="w-10 cell-user">
+            <i class="fa fa-user-circle" *ngIf="task.owneruser == null"></i>
+            <span  *ngIf="task.owneruser != null" class="badge badge-secondary icon-user" title="{{task.owneruser?.name}} {{task.owneruser?.lastname}}">
+               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}
+            </span>
+            <div class="dialog-content hideMe">
+                  <div class="speech-bubble-user">
+                     <ul>
+                        <li *ngFor="let user of users">
+                           <span class="btn item-user text-left"  (click)="onChangeUserReporta(task,user.user)">
+                                 <i class="fa fa-user-circle"></i> {{user.user?.name}} {{user.user?.lastname}} 
+                              </span>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+         </td>
+         <td class=" w-10 cell-user">
+               <i class="fa fa-user-circle" *ngIf="task.devuser == null"></i>
+               <span  *ngIf="task.devuser != null" class="badge badge-secondary icon-user" title="{{task.devuser?.name}} {{task.devuser?.lastname}}">
+                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}
+               </span>
+            <div class="dialog-content hideMe">
+               <div class="speech-bubble-user">
+                  <ul>
+                     <li *ngFor="let user of users">
+                        <span class="btn item-user text-left" (click)="onChangeUserAtiende(task,user.user)">
+                              <i class="fa fa-user-circle" ></i> {{user.user?.name}} {{user.user?.lastname}} 
+                           </span>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </td>
+         <td class="cell-status w-15 {{status.color?.background}} text-center text-white">
+           <span > {{status.name}} </span>
+           <div class="dialog-content hideMe">
+            <div class="speech-bubble ">
+               <ul>
+                  <li *ngFor="let st of allstatus">
+                        <button class="btn {{st.color?.background}} w-100 text-white " (click)="onClickUpdateStatus(task,st.id)">{{st.name}}</button>
+                  </li>
+               </ul>
+              
+            </div>
+         </div>
+         
+         </td>
+         <td class="text-center w-15">
+            <input type="date" class="form-control input-date-cell text-center " [(ngModel)]="task.enddate" (change)="onChangeEndDate(task)">
+         </td>
+      </tr>
+      <tr>
+         <td colspan="4">
+            <input type="text" class="form-control pull-left" [(ngModel)]="nameTask" placeholder="Agregar tarea">
+         </td>
+         <td class="1">
+            <button class="btn btn-default pull-left" (click)="onClickAddTask()">
+               <i class="fa fa-plus"></i>
+            </button>
+         </td>
+      </tr>
+   </tbody>
+</table>
+

@@ -1,0 +1,7 @@
+<div class="row" *ngFor="let st of status">
+  <div class="col-12">
+    <h5  class="top2 {{st.color?.text}}">{{st.name}}</h5>
+    <hr/>
+      <app-task [status]="st" [allstatus]="status" [users]="users" [statusService]="statusService" (editStatusTask)="editStatusTask($event)"></app-task>
+  </div>
+</div>
