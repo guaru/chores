@@ -149,7 +149,8 @@ function _initStatusProject() {
             return _status["default"].create({
               name: 'ANALISIS',
               colorId: 2,
-              projectId: projectId
+              projectId: projectId,
+              position: 1
             }, {
               fields: ['name', 'colorId', 'projectId']
             });
@@ -160,7 +161,8 @@ function _initStatusProject() {
             return _status["default"].create({
               name: 'PENDIENTES',
               colorId: 3,
-              projectId: projectId
+              projectId: projectId,
+              position: 2
             }, {
               fields: ['name', 'colorId', 'projectId']
             });
@@ -169,9 +171,10 @@ function _initStatusProject() {
             status = _context4.sent;
             _context4.next = 9;
             return _status["default"].create({
-              name: 'PRUEBAS',
-              colorId: 4,
-              projectId: projectId
+              name: 'TRABAJANDO',
+              colorId: 5,
+              projectId: projectId,
+              position: 3
             }, {
               fields: ['name', 'colorId', 'projectId']
             });
@@ -180,18 +183,31 @@ function _initStatusProject() {
             status = _context4.sent;
             _context4.next = 12;
             return _status["default"].create({
-              name: 'LISTO',
-              colorId: 1,
-              projectId: projectId
+              name: 'PRUEBAS',
+              colorId: 4,
+              projectId: projectId,
+              position: 4
             }, {
               fields: ['name', 'colorId', 'projectId']
             });
 
           case 12:
             status = _context4.sent;
+            _context4.next = 15;
+            return _status["default"].create({
+              name: 'LISTO',
+              colorId: 1,
+              projectId: projectId,
+              position: 5
+            }, {
+              fields: ['name', 'colorId', 'projectId']
+            });
+
+          case 15:
+            status = _context4.sent;
             return _context4.abrupt("return", status);
 
-          case 14:
+          case 17:
           case "end":
             return _context4.stop();
         }

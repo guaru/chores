@@ -27,6 +27,9 @@ var Status = _database.db.define('status', {
   projectId: {
     type: _sequelize["default"].INTEGER,
     name: 'projectId'
+  },
+  position: {
+    type: _sequelize["default"].INTEGER
   }
 }, {
   freezeTableName: true,

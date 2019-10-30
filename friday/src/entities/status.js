@@ -18,6 +18,9 @@ const Status =  db.define('status',{
     projectId : {
         type : Sequelize.INTEGER,
          name: 'projectId'
+    },
+    position:{
+        type:Sequelize.INTEGER
     }
    
 }, {

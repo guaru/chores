@@ -9,7 +9,7 @@ export async function findStatusByProject(projectid) {
          projectId : projectid
        },
        order:[
-           ['id','ASC'],
+           ['position','ASC'],
            [Task,'id','ASC']
            
        ],

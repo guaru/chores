@@ -45,7 +45,8 @@ export async function initStatusProject(projectId) {
       
       name: 'ANALISIS',
       colorId: 2,
-      projectId: projectId
+      projectId: projectId,
+      position:1
    }, {
          fields: ['name', 'colorId', 'projectId']
       });
@@ -53,19 +54,29 @@ export async function initStatusProject(projectId) {
      status = await Status.create({
         name : 'PENDIENTES',
         colorId: 3,
-        projectId:projectId
+        projectId:projectId,
+        position:2
      },{fields : ['name','colorId','projectId']});
+
+     status = await Status.create({
+      name : 'TRABAJANDO',
+      colorId: 5,
+      projectId:projectId,
+      position:3
+   },{fields : ['name','colorId','projectId']});
   
      status = await Status.create({
         name : 'PRUEBAS',
         colorId: 4,
-        projectId:projectId
+        projectId:projectId,
+        position:4
      },{fields : ['name','colorId','projectId']});
   
      status = await Status.create({
         name : 'LISTO',
         colorId: 1,
-        projectId:projectId
+        projectId:projectId,
+        position:5
      },{fields : ['name','colorId','projectId']});
    return status;
 }

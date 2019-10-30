@@ -39,7 +39,7 @@ function _findStatusByProject() {
               where: {
                 projectId: projectid
               },
-              order: [['id', 'ASC'], [_tasks["default"], 'id', 'ASC']],
+              order: [['position', 'ASC'], [_tasks["default"], 'id', 'ASC']],
               include: [{
                 model: _colors["default"]
               }, {
