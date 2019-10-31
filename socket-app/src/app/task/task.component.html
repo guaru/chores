@@ -9,7 +9,7 @@
    </thead>
    <tbody>
       <tr class="bg-white" *ngFor="let task of status.tasks">
-         <td class="cell-task " title="{{task.name}}">
+         <td class="cell-task " title="{{task.name}}" (click)="onClickShowTask(task.id)">
             {{task.name}}
          </td>
          <td class="w-10 cell-user">
@@ -21,7 +21,7 @@
                   <div class="speech-bubble-user">
                      <ul>
                         <li *ngFor="let user of users">
-                           <span class="btn item-user text-left"  (click)="onChangeUserReporta(task,user.user)">
+                           <span class="btn item-user btn-shadow text-left"  (click)="onChangeUserReporta(task,user.user)">
                                  <i class="fa fa-user-circle"></i> {{user.user?.name}} {{user.user?.lastname}} 
                               </span>
                         </li>
@@ -38,7 +38,7 @@
                <div class="speech-bubble-user">
                   <ul>
                      <li *ngFor="let user of users">
-                        <span class="btn item-user text-left" (click)="onChangeUserAtiende(task,user.user)">
+                        <span class="btn item-user btn-shadow text-left" (click)="onChangeUserAtiende(task,user.user)">
                               <i class="fa fa-user-circle" ></i> {{user.user?.name}} {{user.user?.lastname}} 
                            </span>
                      </li>
@@ -52,7 +52,7 @@
             <div class="speech-bubble ">
                <ul>
                   <li *ngFor="let st of allstatus">
-                        <button class="btn {{st.color?.background}} w-100 text-white " (click)="onClickUpdateStatus(task,st.id)">{{st.name}}</button>
+                        <button class="btn btn-shadow {{st.color?.background}} w-100 text-white " (click)="onClickUpdateStatus(task,st.id)">{{st.name}}</button>
                   </li>
                </ul>
               
@@ -60,8 +60,8 @@
          </div>
          
          </td>
-         <td class="text-center w-15">
-            <input type="date" class="form-control input-date-cell text-center " [(ngModel)]="task.enddate" (change)="onChangeEndDate(task)">
+         <td class="text-center w-15 cell-input">
+            <input type="date" class="form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}" [(ngModel)]="task.enddate" (change)="onChangeEndDate(task)">
          </td>
       </tr>
       <tr>

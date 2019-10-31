@@ -102,6 +102,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _status_status_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./status/status.component */ "./src/app/status/status.component.ts");
 /* harmony import */ var _task_task_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./task/task.component */ "./src/app/task/task.component.ts");
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./config */ "./src/app/config.ts");
+/* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modal/modal.component */ "./src/app/modal/modal.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -120,6 +122,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 console.log("BASE_URL", _config__WEBPACK_IMPORTED_MODULE_10__["BASE_URL"]);
 var config = { url: _config__WEBPACK_IMPORTED_MODULE_10__["BASE_URL"], options: {} };
 var AppModule = /** @class */ (function () {
@@ -132,16 +136,21 @@ var AppModule = /** @class */ (function () {
                 _document_list_document_list_component__WEBPACK_IMPORTED_MODULE_5__["DocumentListComponent"],
                 _document_document_component__WEBPACK_IMPORTED_MODULE_6__["DocumentComponent"],
                 _status_status_component__WEBPACK_IMPORTED_MODULE_8__["StatusComponent"],
-                _task_task_component__WEBPACK_IMPORTED_MODULE_9__["TaskComponent"]
+                _task_task_component__WEBPACK_IMPORTED_MODULE_9__["TaskComponent"],
+                _modal_modal_component__WEBPACK_IMPORTED_MODULE_11__["ModalComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
                 _angular_http__WEBPACK_IMPORTED_MODULE_3__["HttpModule"],
-                ngx_socket_io__WEBPACK_IMPORTED_MODULE_7__["SocketIoModule"].forRoot(config)
+                ngx_socket_io__WEBPACK_IMPORTED_MODULE_7__["SocketIoModule"].forRoot(config),
+                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__["NgbModule"].forRoot()
             ],
-            providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+            providers: [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_12__["NgbActiveModal"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]],
+            entryComponents: [
+                _modal_modal_component__WEBPACK_IMPORTED_MODULE_11__["ModalComponent"]
+            ]
         })
     ], AppModule);
     return AppModule;
@@ -162,7 +171,7 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
 //desarrollo
-//export const BASE_URL  = "http://localhost:9080"; 
+// export const BASE_URL  = "http://localhost:9080/"; 
 //produccion
 var BASE_URL = window.location.protocol + "//" + window.location.host + "/";
 
@@ -332,6 +341,77 @@ var DocumentComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_service_document_service__WEBPACK_IMPORTED_MODULE_1__["DocumentService"], _service_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
     ], DocumentComponent);
     return DocumentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.html":
+/*!********************************************!*\
+  !*** ./src/app/modal/modal.component.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div role=\"document\" class=\"modal-dialog\">\n    <!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->\n  </div>"
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.scss":
+/*!********************************************!*\
+  !*** ./src/app/modal/modal.component.scss ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/modal/modal.component.ts ***!
+  \******************************************/
+/*! exports provided: ModalComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalComponent", function() { return ModalComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ModalComponent = /** @class */ (function () {
+    function ModalComponent(activeModal) {
+        this.activeModal = activeModal;
+        this.title = "Information";
+    }
+    ModalComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], ModalComponent.prototype, "title", void 0);
+    ModalComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-modal',
+            template: __webpack_require__(/*! ./modal.component.html */ "./src/app/modal/modal.component.html"),
+            styles: [__webpack_require__(/*! ./modal.component.scss */ "./src/app/modal/modal.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"]])
+    ], ModalComponent);
+    return ModalComponent;
 }());
 
 
@@ -566,7 +646,7 @@ var UserService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" *ngFor=\"let st of status\">\n  <div class=\"col-12\">\n    <h5  class=\"top2 {{st.color?.text}}\">{{st.name}}</h5>\n    <hr/>\n      <app-task [status]=\"st\" [allstatus]=\"status\" [users]=\"users\" [statusService]=\"statusService\" (editStatusTask)=\"editStatusTask($event)\"></app-task>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row\" *ngFor=\"let st of status\">\n  <div class=\"col-12\">\n    <h5  class=\"top2 {{st.color?.text}}\" >\n       <span id=\"{{st.id}}\" class=\"status-title\"> <i class=\"fa fa-chevron-down\"></i></span>\n        {{st.name}}\n    </h5>\n    <hr/>\n    <div id=\"task_{{st.id}}\">\n        <app-task  [status]=\"st\" [allstatus]=\"status\" [users]=\"users\" [statusService]=\"statusService\" (editStatusTask)=\"editStatusTask($event)\"></app-task>\n    </div>\n      \n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -662,7 +742,7 @@ var StatusComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\">\n            {{task.name}}\n         </td>\n         <td class=\"w-10 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-10 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center \" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
+module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\" (click)=\"onClickShowTask(task.id)\">\n            {{task.name}}\n         </td>\n         <td class=\"w-10 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user btn-shadow text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-10 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user btn-shadow text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn btn-shadow {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15 cell-input\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}\" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
 
 /***/ }),
 
@@ -673,7 +753,7 @@ module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".input-date-cell {\n  background-color: transparent;\n  border: none;\n  font-size: 0.8rem;\n  height: 100%;\n  padding: 0;\n  margin: 0; }\n\n.cell-user {\n  cursor: pointer;\n  font-size: 1.6rem;\n  text-align: center;\n  margin: 0 !important;\n  padding: 0 !important; }\n\n.cell-user .fa {\n    margin: 0 !important;\n    padding: 0 !important; }\n\n.cell-user i {\n    margin: 0 !important;\n    padding: 0 !important; }\n\n.cell-task {\n  word-wrap: break-word !important;\n  min-width: 300px;\n  max-width: 300px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  line-height: 1.5rem; }\n\n.cell-status {\n  cursor: pointer;\n  line-height: 1.5rem; }\n"
+module.exports = ".input-date-cell {\n  background-color: transparent;\n  border: none;\n  font-size: 0.8rem;\n  height: 100%;\n  padding: 0;\n  margin: 0; }\n\n.cell-user {\n  cursor: pointer;\n  font-size: 1.6rem;\n  text-align: center;\n  margin: 0 !important;\n  padding: 0 !important; }\n\n.cell-user .fa {\n    margin: 0 !important;\n    padding: 0 !important; }\n\n.cell-user i {\n    margin: 0 !important;\n    padding: 0 !important; }\n\n.cell-task {\n  word-wrap: break-word !important;\n  min-width: 300px;\n  max-width: 300px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  line-height: 1.5rem;\n  font-weight: 700; }\n\n.cell-status {\n  cursor: pointer;\n  line-height: 1.5rem;\n  font-weight: 600; }\n"
 
 /***/ }),
 
@@ -691,6 +771,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_status__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/status */ "./src/app/models/status.ts");
 /* harmony import */ var _service_status_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../service/status.service */ "./src/app/service/status.service.ts");
 /* harmony import */ var _models_task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/task */ "./src/app/models/task.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modal.component */ "./src/app/modal/modal.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -704,8 +786,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var TaskComponent = /** @class */ (function () {
-    function TaskComponent() {
+    function TaskComponent(modalService) {
+        this.modalService = modalService;
         this.editSatusTask = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     TaskComponent.prototype.ngOnInit = function () {
@@ -728,6 +813,11 @@ var TaskComponent = /** @class */ (function () {
     TaskComponent.prototype.onChangeUserAtiende = function (task, user) {
         task.devuserId = user.id;
         this.statusService.editTask(task);
+    };
+    TaskComponent.prototype.onClickShowTask = function (taskId) {
+        // const modalRef = this.modalService.open(ModalComponent);
+        var modalRef = this.modalService.open(_modal_modal_component__WEBPACK_IMPORTED_MODULE_5__["ModalComponent"], { size: 'lg' });
+        modalRef.componentInstance.title = 'About';
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('status'),
@@ -755,7 +845,7 @@ var TaskComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./task.component.html */ "./src/app/task/task.component.html"),
             styles: [__webpack_require__(/*! ./task.component.scss */ "./src/app/task/task.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"]])
     ], TaskComponent);
     return TaskComponent;
 }());

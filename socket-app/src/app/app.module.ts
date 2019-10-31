@@ -10,7 +10,8 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { StatusComponent } from './status/status.component';
 import { TaskComponent } from './task/task.component';
 import {BASE_URL}  from './config';
-
+import { ModalComponent } from './modal/modal.component';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 console.log("BASE_URL",BASE_URL);
 const config: SocketIoConfig = { url: BASE_URL, options: {} };
 
@@ -20,15 +21,20 @@ const config: SocketIoConfig = { url: BASE_URL, options: {} };
     DocumentListComponent,
     DocumentComponent,
     StatusComponent,
-    TaskComponent
+    TaskComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-	  SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    NgbModule.forRoot()
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [NgbActiveModal],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ModalComponent
+  ]
 })
 export class AppModule { }

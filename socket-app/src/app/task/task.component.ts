@@ -6,7 +6,8 @@ import { DocumentService } from '../service/document.service';
 import { User } from '../models/user';
 import { ProjectUser } from '../models/projectUser';
 import { takeLast } from 'rxjs/operators';
-
+import {NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from '../modal/modal.component';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -19,7 +20,7 @@ export class TaskComponent implements OnInit {
   @Input('statusService') statusService:StatusService; 
   @Input('users') users:ProjectUser[];
   @Output('editStatusTask') editSatusTask = new EventEmitter();
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
   
@@ -50,6 +51,12 @@ export class TaskComponent implements OnInit {
   {
     task.devuserId =  user.id;
     this.statusService.editTask(task);
+  }
+
+  onClickShowTask(taskId:number){
+     // const modalRef = this.modalService.open(ModalComponent);
+     const modalRef = this.modalService.open(ModalComponent,{ size: 'lg' } );
+     modalRef.componentInstance.title = 'About';
   }
 
 }

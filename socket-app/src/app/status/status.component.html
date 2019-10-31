@@ -1,7 +1,13 @@
 <div class="row" *ngFor="let st of status">
   <div class="col-12">
-    <h5  class="top2 {{st.color?.text}}">{{st.name}}</h5>
+    <h5  class="top2 {{st.color?.text}}" >
+       <span id="{{st.id}}" class="status-title"> <i class="fa fa-chevron-down"></i></span>
+        {{st.name}}
+    </h5>
     <hr/>
-      <app-task [status]="st" [allstatus]="status" [users]="users" [statusService]="statusService" (editStatusTask)="editStatusTask($event)"></app-task>
+    <div id="task_{{st.id}}">
+        <app-task  [status]="st" [allstatus]="status" [users]="users" [statusService]="statusService" (editStatusTask)="editStatusTask($event)"></app-task>
+    </div>
+      
   </div>
 </div>
