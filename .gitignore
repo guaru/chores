@@ -1,2 +1,4 @@
 socket-app/node_modules/
 friday/node_modules/
+friday/package-lock.json
+socket-app/package-lock.json
