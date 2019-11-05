@@ -354,7 +354,7 @@ var DocumentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div role=\"document\" class=\"modal-dialog\">\n    <!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->\n  </div>"
+module.exports = "<div class=\"modal-header\">\n    <div class=\"input-task\">\n      <textarea class=\"form-control input-title-edit\" maxlength=\"150\"   [(ngModel)]=\"task.name\"\n      (change)=\"onChangeUpdateTask()\"></textarea>\n    </div>\n</div>\n\n<div class=\"modal-body\">\n   <!-- Nav tabs -->\n<ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\">\n      <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#comments\"><i class=\"fa fa-comments\"></i></a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" data-toggle=\"tab\" href=\"#files\"><i class=\"fa fa-paperclip\"></i></a>\n    </li>\n  </ul>\n  \n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <div class=\"tab-pane container active\" id=\"comments\">...</div>\n    <div class=\"tab-pane container fade\" id=\"files\">...</div>\n  \n  </div>\n  </div>\n  \n    <!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->\n  "
 
 /***/ }),
 
@@ -381,6 +381,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalComponent", function() { return ModalComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _models_task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/task */ "./src/app/models/task.ts");
+/* harmony import */ var _service_status_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../service/status.service */ "./src/app/service/status.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -392,6 +394,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var ModalComponent = /** @class */ (function () {
     function ModalComponent(activeModal) {
         this.activeModal = activeModal;
@@ -399,10 +403,21 @@ var ModalComponent = /** @class */ (function () {
     }
     ModalComponent.prototype.ngOnInit = function () {
     };
+    ModalComponent.prototype.onChangeUpdateTask = function () {
+        this.statusService.editTask(this.task);
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Object)
     ], ModalComponent.prototype, "title", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", _models_task__WEBPACK_IMPORTED_MODULE_2__["Task"])
+    ], ModalComponent.prototype, "task", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('statusService'),
+        __metadata("design:type", _service_status_service__WEBPACK_IMPORTED_MODULE_3__["StatusService"])
+    ], ModalComponent.prototype, "statusService", void 0);
     ModalComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-modal',
@@ -474,7 +489,7 @@ var Tablero = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
 var Task = /** @class */ (function () {
-    function Task(id, name, enddate, status, project, statusId, owneruserId, devuserId, owneruser, devuser) {
+    function Task(id, name, enddate, status, project, statusId, owneruserId, devuserId, owneruser, devuser, beforeStatusId) {
         this.id = id;
         this.name = name;
         this.enddate = enddate;
@@ -485,6 +500,7 @@ var Task = /** @class */ (function () {
         this.devuserId = devuserId;
         this.owneruser = owneruser;
         this.devuser = devuser;
+        this.beforeStatusId = beforeStatusId;
     }
     return Task;
 }());
@@ -556,6 +572,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StatusService", function() { return StatusService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/fesm5/ngx-socket-io.js");
+/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config */ "./src/app/config.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -567,13 +585,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var StatusService = /** @class */ (function () {
-    function StatusService(socket) {
+    function StatusService(socket, http) {
         this.socket = socket;
-        this.status = this.socket.fromEvent('status');
+        this.http = http;
+        this.newTask = this.socket.fromEvent('newTask');
+        this.changeTask = this.socket.fromEvent('changeTask');
     }
     StatusService.prototype.getStatus = function (tableroId) {
-        this.socket.emit('getStatus', tableroId);
+        this.socket.emit('initStatus', tableroId);
+    };
+    StatusService.prototype.findAllStatus = function (tableroId) {
+        return this.http.get(_config__WEBPACK_IMPORTED_MODULE_3__["BASE_URL"] + "api/tablero/" + tableroId + "/status");
     };
     StatusService.prototype.addTask = function (task) {
         this.socket.emit('addTask', task);
@@ -585,7 +610,7 @@ var StatusService = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [ngx_socket_io__WEBPACK_IMPORTED_MODULE_1__["Socket"]])
+        __metadata("design:paramtypes", [ngx_socket_io__WEBPACK_IMPORTED_MODULE_1__["Socket"], _angular_http__WEBPACK_IMPORTED_MODULE_2__["Http"]])
     ], StatusService);
     return StatusService;
 }());
@@ -692,13 +717,41 @@ var StatusComponent = /** @class */ (function () {
     }
     StatusComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._stsSub = this.statusService.status.pipe().subscribe(function (data) {
-            _this.status = data;
-            console.log('status', _this.status);
+        this._stsSub = this.statusService.newTask.pipe().subscribe(function (data) {
+            var task = data;
         });
+        this._stsSubChange = this.statusService.changeTask.pipe().subscribe(function (data) {
+            var taskvo = data;
+            console.log(taskvo);
+            if (taskvo.beforeStatusId === taskvo.task.statusId) {
+                _this.updateTask(taskvo.task);
+            }
+            else {
+                var newStatusId = taskvo.task.statusId;
+                taskvo.task.statusId = taskvo.beforeStatusId;
+                _this.removeTask(taskvo.task);
+                taskvo.task.statusId = newStatusId;
+                _this.addTask(taskvo.task);
+            }
+        });
+        this.statusService.findAllStatus(this.tablero.id).subscribe(function (data) {
+            _this.status = data.json();
+        });
+    };
+    StatusComponent.prototype.addTask = function (task) {
+        this.status.find(function (x) { return x.id === task.statusId; }).tasks.push(task);
+    };
+    StatusComponent.prototype.updateTask = function (task) {
+        var index = this.status.find(function (x) { return x.id === task.statusId; }).tasks.findIndex(function (t) { return t.id === task.id; });
+        this.status.find(function (x) { return x.id === task.statusId; }).tasks[index] = task;
+    };
+    StatusComponent.prototype.removeTask = function (task) {
+        this.status.find(function (x) { return x.id === task.statusId; }).tasks =
+            this.status.find(function (x) { return x.id === task.statusId; }).tasks.filter(function (t) { return t.id != task.id; });
     };
     StatusComponent.prototype.ngOnDestroy = function () {
         this._stsSub.unsubscribe();
+        this._stsSubChange.unsubscribe();
     };
     StatusComponent.prototype.editStatusTask = function (data) {
         var task = data.task;
@@ -742,7 +795,7 @@ var StatusComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\" (click)=\"onClickShowTask(task.id)\">\n            {{task.name}}\n         </td>\n         <td class=\"w-10 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user btn-shadow text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-10 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user btn-shadow text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn btn-shadow {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15 cell-input\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}\" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
+module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\" (click)=\"onClickShowTask(task)\">\n            {{task.name}}\n         </td>\n         <td class=\"w-10 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user btn-shadow text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-10 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user btn-shadow text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn btn-shadow {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15 cell-input\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}\" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
 
 /***/ }),
 
@@ -814,10 +867,12 @@ var TaskComponent = /** @class */ (function () {
         task.devuserId = user.id;
         this.statusService.editTask(task);
     };
-    TaskComponent.prototype.onClickShowTask = function (taskId) {
+    TaskComponent.prototype.onClickShowTask = function (task) {
         // const modalRef = this.modalService.open(ModalComponent);
         var modalRef = this.modalService.open(_modal_modal_component__WEBPACK_IMPORTED_MODULE_5__["ModalComponent"], { size: 'lg' });
-        modalRef.componentInstance.title = 'About';
+        modalRef.componentInstance.title = 'TAREA';
+        modalRef.componentInstance.task = task;
+        modalRef.componentInstance.statusService = this.statusService;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('status'),

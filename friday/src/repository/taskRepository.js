@@ -1,5 +1,5 @@
 import Task from '../entities/tasks';
-
+import User from '../entities/users';
 export async function createTask(_task){
     const {id,name,status,project} = _task;
     let task =  Task.create({
@@ -14,6 +14,8 @@ export async function createTask(_task){
     return task;
 }
 
+
+
 export async function editTask(_task){
     const {id,name,status,project,statusId,enddate,owneruserId,devuserId} = _task;
     let task =  Task.update({
@@ -26,5 +28,26 @@ export async function editTask(_task){
     {
         where:{id:id}
     });
+    return task;
+}
+
+export async function findOne(id){
+    let task = await Task.findOne({
+       where: {
+            id
+         },
+         include:[
+            {
+                model: User,
+                as:'owneruser'
+            },
+            {
+             model: User,
+             as:'devuser'
+         }
+        ]
+
+    });
+
     return task;
 }

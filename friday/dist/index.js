@@ -78,10 +78,10 @@ io.on("connection", function (socket) {
     safeJoin(docId);
     (0, _projectRepository.findOne)(docId).then(function (data) {
       socket.emit("tablero", data);
-      (0, _statusRepository.findStatusByProject)(docId).then(function (data) {
-        console.log('TABLERO', data);
-        socket.emit("status", data);
-      });
+      /* findStatusByProject(docId).then(data=>{
+         console.log('TABLERO',data);
+         socket.emit("status", data);
+       });*/
     });
   });
   socket.on("addTablero", function (doc) {
@@ -104,19 +104,24 @@ io.on("connection", function (socket) {
   });
   socket.on("addTask", function (task) {
     (0, _taskRepository.createTask)(task).then(function (newTask) {
-      (0, _statusRepository.findStatusByProject)(newTask.projectId).then(function (data) {
+      (0, _taskRepository.findOne)(newTask.id).then(function (data) {
         // socket.emit("status", data);
-        socket.to(newTask.projectId).emit("status", data);
-        io.to(newTask.projectId).emit("status", data);
+        //socket.to(newTask.projectId).emit("newTask", data);
+        io.to(newTask.projectId).emit("newTask", data);
       });
     });
   });
   socket.on("editTask", function (task) {
-    (0, _taskRepository.editTask)(task).then(function (newTask) {
-      (0, _statusRepository.findStatusByProject)(task.projectId).then(function (data) {
-        // socket.emit("status", data);
-        socket.to(task.projectId).emit("status", data);
-        io.to(task.projectId).emit("status", data);
+    (0, _taskRepository.findOne)(task.id).then(function (beforeTask) {
+      var beforeStatusId = beforeTask.statusId;
+      (0, _taskRepository.editTask)(task).then(function (newTask) {
+        (0, _taskRepository.findOne)(task.id).then(function (data) {
+          //socket.to(task.projectId).emit("changeTask", {task:data,beforeStatusId:beforeStatusId});
+          io.to(task.projectId).emit("changeTask", {
+            task: data,
+            beforeStatusId: beforeStatusId
+          });
+        });
       });
     });
   });

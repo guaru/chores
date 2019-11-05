@@ -5,8 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createTask = createTask;
 exports.editTask = editTask;
+exports.findOne = findOne;
 
 var _tasks = _interopRequireDefault(require("../entities/tasks"));
+
+var _users = _interopRequireDefault(require("../entities/users"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -83,4 +86,45 @@ function _editTask() {
     }, _callee2);
   }));
   return _editTask.apply(this, arguments);
+}
+
+function findOne(_x3) {
+  return _findOne.apply(this, arguments);
+}
+
+function _findOne() {
+  _findOne = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee3(id) {
+    var task;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return _tasks["default"].findOne({
+              where: {
+                id: id
+              },
+              include: [{
+                model: _users["default"],
+                as: 'owneruser'
+              }, {
+                model: _users["default"],
+                as: 'devuser'
+              }]
+            });
+
+          case 2:
+            task = _context3.sent;
+            return _context3.abrupt("return", task);
+
+          case 4:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+  return _findOne.apply(this, arguments);
 }

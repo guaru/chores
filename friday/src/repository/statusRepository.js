@@ -4,7 +4,7 @@ import Task from '../entities/tasks';
 import Project from '../entities/projects';
 import User from '../entities/users';
 export async function findStatusByProject(projectid) {
-    const status = await Status.findAll({
+   return  Status.findAll({
        where: {
          projectId : projectid
        },
@@ -32,7 +32,6 @@ export async function findStatusByProject(projectid) {
         model:Project
         }]
     });
-    return status;
  }
 
  

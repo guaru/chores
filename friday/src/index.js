@@ -17,7 +17,7 @@ import projectRoutes from  './routes/projects';
 import  taskRoutes from './routes/tasks';
 import {create,getAll,findOne,deleteOne,update,initStatusProject} from  './repository/projectRepository';
 import {findStatusByProject} from './repository/statusRepository';
-import {createTask,editTask} from './repository/taskRepository';
+import {createTask,editTask,findOne as findOneTask} from './repository/taskRepository';
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -59,10 +59,10 @@ io.on("connection", socket => {
       safeJoin(docId);
       findOne(docId).then(data=>{
         socket.emit("tablero", data);
-        findStatusByProject(docId).then(data=>{
+       /* findStatusByProject(docId).then(data=>{
           console.log('TABLERO',data);
           socket.emit("status", data);
-        });
+        });*/
       });
 
     });
@@ -91,22 +91,25 @@ io.on("connection", socket => {
 
     socket.on("addTask",task =>{
         createTask(task).then(newTask=>{
-          findStatusByProject(newTask.projectId).then(data=>{
+          findOneTask(newTask.id).then(data=>{
            // socket.emit("status", data);
-            socket.to(newTask.projectId).emit("status", data);
-            io.to(newTask.projectId).emit("status",data);
+            //socket.to(newTask.projectId).emit("newTask", data);
+            io.to(newTask.projectId).emit("newTask",data);
           });
         });
     });
 
     socket.on("editTask",task =>{
-      editTask(task).then(newTask=>{
-        findStatusByProject(task.projectId).then(data=>{
-         // socket.emit("status", data);
-          socket.to(task.projectId).emit("status", data);
-          io.to(task.projectId).emit("status",data);
+      findOneTask(task.id).then(beforeTask=>{
+        const beforeStatusId  = beforeTask.statusId;
+        editTask(task).then(newTask=>{
+          findOneTask(task.id).then(data=>{
+             //socket.to(task.projectId).emit("changeTask", {task:data,beforeStatusId:beforeStatusId});
+             io.to(task.projectId).emit("changeTask",{task:data,beforeStatusId:beforeStatusId});
+           });
         });
       });
+     
   });
 
  

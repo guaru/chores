@@ -9,7 +9,7 @@
    </thead>
    <tbody>
       <tr class="bg-white" *ngFor="let task of status.tasks">
-         <td class="cell-task " title="{{task.name}}" (click)="onClickShowTask(task.id)">
+         <td class="cell-task " title="{{task.name}}" (click)="onClickShowTask(task)">
             {{task.name}}
          </td>
          <td class="w-10 cell-user">

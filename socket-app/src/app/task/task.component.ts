@@ -53,10 +53,12 @@ export class TaskComponent implements OnInit {
     this.statusService.editTask(task);
   }
 
-  onClickShowTask(taskId:number){
+  onClickShowTask(task:Task){
      // const modalRef = this.modalService.open(ModalComponent);
      const modalRef = this.modalService.open(ModalComponent,{ size: 'lg' } );
-     modalRef.componentInstance.title = 'About';
+     modalRef.componentInstance.title = 'TAREA';
+     modalRef.componentInstance.task =  task;
+     modalRef.componentInstance.statusService =  this.statusService;
   }
 
 }

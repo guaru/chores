@@ -12,6 +12,7 @@ export class Task {
         public owneruserId?:number,
         public devuserId?:number,
         public owneruser?:User,
-        public devuser?:User
+        public devuser?:User,
+        public beforeStatusId?:number
         ){}
 }

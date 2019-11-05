@@ -1,4 +1,29 @@
-<div role="document" class="modal-dialog">
+<div class="modal-header">
+    <div class="input-task">
+      <textarea class="form-control input-title-edit" maxlength="150"   [(ngModel)]="task.name"
+      (change)="onChangeUpdateTask()"></textarea>
+    </div>
+</div>
+
+<div class="modal-body">
+   <!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#comments"><i class="fa fa-comments"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#files"><i class="fa fa-paperclip"></i></a>
+    </li>
+  </ul>
+  
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane container active" id="comments">...</div>
+    <div class="tab-pane container fade" id="files">...</div>
+  
+  </div>
+  </div>
+  
     <!--<div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{{title}}</h4>
@@ -14,4 +39,4 @@
       </div>
     </div>
     -->
-  </div>
+  

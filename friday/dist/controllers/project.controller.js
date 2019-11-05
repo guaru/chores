@@ -4,8 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.findUsers = findUsers;
+exports.findStatus = findStatus;
 
 var _projectUserRepository = require("../repository/projectUserRepository");
+
+var _statusRepository = require("../repository/statusRepository");
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -24,16 +27,15 @@ function _findUsers() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log(req);
             projectId = req.params.projectId;
-            _context.next = 4;
+            _context.next = 3;
             return (0, _projectUserRepository.findUsersByProject)(projectId);
 
-          case 4:
+          case 3:
             users = _context.sent;
             res.json(users);
 
-          case 6:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -41,4 +43,36 @@ function _findUsers() {
     }, _callee);
   }));
   return _findUsers.apply(this, arguments);
+}
+
+function findStatus(_x3, _x4) {
+  return _findStatus.apply(this, arguments);
+}
+
+function _findStatus() {
+  _findStatus = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(req, res) {
+    var projectId, status;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            projectId = req.params.projectId;
+            console.log('project id', projectId);
+            _context2.next = 4;
+            return (0, _statusRepository.findStatusByProject)(projectId);
+
+          case 4:
+            status = _context2.sent;
+            res.json(status);
+
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _findStatus.apply(this, arguments);
 }

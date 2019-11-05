@@ -6,6 +6,7 @@ import { Task } from '../models/task';
 import { Tablero } from '../models/tablero';
 import { User } from '../models/user';
 import { ProjectUser } from '../models/projectUser';
+import { TaskVO } from '../models/task-vo';
 
 @Component({
   selector: 'app-status',
@@ -17,17 +18,60 @@ export class StatusComponent implements OnInit {
   @Input('users') users:ProjectUser[];
   status: Status[];
   private _stsSub: Subscription;
+  private _stsSubChange: Subscription;
   constructor(private statusService:StatusService) { }
 
   ngOnInit() {
-    this._stsSub =  this.statusService.status.pipe().subscribe(data=>{
-        this.status =  data;
-        console.log('status',this.status);
+    this._stsSub =  this.statusService.newTask.pipe().subscribe(data=>{
+        let task:Task =data;
+       
     });
-   
+    
+    this._stsSubChange = this.statusService.changeTask.pipe().subscribe(data=>{
+        let taskvo:TaskVO =data;
+      
+        console.log(taskvo);
+        if(taskvo.beforeStatusId === taskvo.task.statusId)
+        {
+         this.updateTask(taskvo.task);
+        }else
+        {
+          let newStatusId =  taskvo.task.statusId;
+          taskvo.task.statusId =  taskvo.beforeStatusId;
+          this.removeTask(taskvo.task);
+          taskvo.task.statusId =  newStatusId;
+          this.addTask(taskvo.task);
+        }
+        
+    });
+
+
+    this.statusService.findAllStatus(this.tablero.id).subscribe(data=>{
+        this.status =  data.json();
+    });
   }
+
+  addTask(task:Task)
+  {
+    this.status.find(x=>x.id === task.statusId).tasks.push(task);
+  }
+
+  updateTask(task:Task){
+    let index = this.status.find(x=>x.id === task.statusId).tasks.findIndex(t=>t.id === task.id);
+    this.status.find(x=>x.id === task.statusId).tasks[index] =  task;
+  }
+
+  removeTask(task:Task)
+  {
+    this.status.find(x=>x.id === task.statusId).tasks = 
+    this.status.find(x=>x.id === task.statusId).tasks.filter(t=>t.id != task.id);
+  }
+
+
+
   ngOnDestroy(){
     this._stsSub.unsubscribe();
+    this._stsSubChange.unsubscribe();
   }
 
 

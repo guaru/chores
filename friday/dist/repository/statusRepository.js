@@ -29,13 +29,11 @@ function _findStatusByProject() {
   _findStatusByProject = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(projectid) {
-    var status;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _status["default"].findAll({
+            return _context.abrupt("return", _status["default"].findAll({
               where: {
                 projectId: projectid
               },
@@ -54,13 +52,9 @@ function _findStatusByProject() {
               }, {
                 model: _projects["default"]
               }]
-            });
+            }));
 
-          case 2:
-            status = _context.sent;
-            return _context.abrupt("return", status);
-
-          case 4:
+          case 1:
           case "end":
             return _context.stop();
         }
