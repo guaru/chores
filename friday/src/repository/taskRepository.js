@@ -17,13 +17,14 @@ export async function createTask(_task){
 
 
 export async function editTask(_task){
-    const {id,name,status,project,statusId,enddate,owneruserId,devuserId} = _task;
+    const {id,name,statusId,enddate,owneruserId,devuserId,complements} = _task;
     let task =  Task.update({
         name,
         statusId,
         enddate,
         owneruserId,
-        devuserId
+        devuserId,
+        complements
     },
     {
         where:{id:id}

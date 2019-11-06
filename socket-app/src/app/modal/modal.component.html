@@ -1,13 +1,13 @@
 <div class="modal-header">
-    <div class="input-task">
-      <textarea class="form-control input-title-edit" maxlength="150"   [(ngModel)]="task.name"
+  <div class="input-task">
+    <textarea class="form-control input-title-edit" maxlength="150" [(ngModel)]="task.name"
       (change)="onChangeUpdateTask()"></textarea>
-    </div>
+  </div>
 </div>
 
 <div class="modal-body">
-   <!-- Nav tabs -->
-<ul class="nav nav-tabs">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs">
     <li class="nav-item">
       <a class="nav-link active" data-toggle="tab" href="#comments"><i class="fa fa-comments"></i></a>
     </li>
@@ -15,16 +15,51 @@
       <a class="nav-link" data-toggle="tab" href="#files"><i class="fa fa-paperclip"></i></a>
     </li>
   </ul>
-  
+
   <!-- Tab panes -->
   <div class="tab-content">
-    <div class="tab-pane container active" id="comments">...</div>
+    <div class="tab-pane container active" id="comments">
+      <div class="row top2">
+        <div class="col-12">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Agregar comentario" [(ngModel)]="comment" (keyup.enter)="addComment()">
+          </div>
+        </div>
+        <div  class="col-12" *ngFor="let item of taskComments">
+           <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><small>{{item.createdate |  date:'dd/MM/yyyy HH:mm'}}</small></h6>
+                    <div class="dropdown no-arrow">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);">
+                        <div class="dropdown-header">OPCIONES:</div>
+                        <a class="dropdown-item" href="#" (click)="deleteComment(item)">Eliminar</a>
+                        <a class="dropdown-item" href="#">Archivar</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"></a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                        <p class="text-comment">{{ item.description}}</p>
+                  </div>
+              </div> 
+        </div>
+        <div class="col-12" *ngIf="load">
+          <p class="text-secundary">Cargando comentarios...</p>
+        </div>
+      </div>
+    </div>
     <div class="tab-pane container fade" id="files">...</div>
-  
+
   </div>
-  </div>
-  
-    <!--<div class="modal-content">
+</div>
+
+<!--<div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">{{title}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
@@ -39,4 +74,3 @@
       </div>
     </div>
     -->
-  

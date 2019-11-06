@@ -29,5 +29,8 @@ export class StatusService {
     this.socket.emit('editTask',task);
   }
 
+  notifyTask(taskId){
+    this.socket.emit('notifyTask',taskId);
+  }
   
 }

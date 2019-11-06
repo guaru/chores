@@ -2,6 +2,7 @@
 
    <thead>
       <th class="text-center"></th>
+      <th class="text-center"></th>
       <th class="text-center">Reporta</th>
       <th class="text-center">Atiende</th>
       <th class="text-center">Estatus</th>
@@ -11,8 +12,15 @@
       <tr class="bg-white" *ngFor="let task of status.tasks">
          <td class="cell-task " title="{{task.name}}" (click)="onClickShowTask(task)">
             {{task.name}}
+           
          </td>
-         <td class="w-10 cell-user">
+         <td class="w-2">
+               <span class="task-badge" *ngIf="task.complements > 0">
+                     <i class="fas fa-bell fa-fw"></i>
+                     <span class="badge badge-danger badge-counter">{{task.complements}}</span><!-- Counter - Messages -->
+               </span>
+         </td>
+         <td class="w-5 cell-user">
             <i class="fa fa-user-circle" *ngIf="task.owneruser == null"></i>
             <span  *ngIf="task.owneruser != null" class="badge badge-secondary icon-user" title="{{task.owneruser?.name}} {{task.owneruser?.lastname}}">
                {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}
@@ -29,7 +37,7 @@
                   </div>
                </div>
          </td>
-         <td class=" w-10 cell-user">
+         <td class=" w-5 cell-user">
                <i class="fa fa-user-circle" *ngIf="task.devuser == null"></i>
                <span  *ngIf="task.devuser != null" class="badge badge-secondary icon-user" title="{{task.devuser?.name}} {{task.devuser?.lastname}}">
                   {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}

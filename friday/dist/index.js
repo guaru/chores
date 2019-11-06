@@ -78,10 +78,6 @@ io.on("connection", function (socket) {
     safeJoin(docId);
     (0, _projectRepository.findOne)(docId).then(function (data) {
       socket.emit("tablero", data);
-      /* findStatusByProject(docId).then(data=>{
-         console.log('TABLERO',data);
-         socket.emit("status", data);
-       });*/
     });
   });
   socket.on("addTablero", function (doc) {
@@ -105,9 +101,15 @@ io.on("connection", function (socket) {
   socket.on("addTask", function (task) {
     (0, _taskRepository.createTask)(task).then(function (newTask) {
       (0, _taskRepository.findOne)(newTask.id).then(function (data) {
-        // socket.emit("status", data);
-        //socket.to(newTask.projectId).emit("newTask", data);
-        io.to(newTask.projectId).emit("newTask", data);
+        io.emit("newTask", data);
+      });
+    });
+  });
+  socket.on("notifyTask", function (taskId) {
+    (0, _taskRepository.findOne)(taskId).then(function (data) {
+      io.emit("changeTask", {
+        task: data,
+        beforeStatusId: data.statusId
       });
     });
   });
@@ -116,8 +118,7 @@ io.on("connection", function (socket) {
       var beforeStatusId = beforeTask.statusId;
       (0, _taskRepository.editTask)(task).then(function (newTask) {
         (0, _taskRepository.findOne)(task.id).then(function (data) {
-          //socket.to(task.projectId).emit("changeTask", {task:data,beforeStatusId:beforeStatusId});
-          io.to(task.projectId).emit("changeTask", {
+          io.emit("changeTask", {
             task: data,
             beforeStatusId: beforeStatusId
           });
@@ -129,6 +130,7 @@ io.on("connection", function (socket) {
 }); //import routes
 
 app.use('/api/tablero/', _projects["default"]);
+app.use('/api/task/', _tasks["default"]);
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../dist/socket-app/index.html'));
 });

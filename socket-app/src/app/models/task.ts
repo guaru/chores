@@ -13,6 +13,8 @@ export class Task {
         public devuserId?:number,
         public owneruser?:User,
         public devuser?:User,
-        public beforeStatusId?:number
+        public beforeStatusId?:number,
+        public projectId?:number,
+        public complements?:number
         ){}
 }

@@ -26,7 +26,10 @@ export class TaskComponent implements OnInit {
   
   }
   onClickAddTask(){
-    this.statusService.addTask(new Task(null,this.nameTask,null,this.status,this.status.project));
+    if(this.nameTask!=''){
+      this.statusService.addTask(new Task(null,this.nameTask,null,this.status,this.status.project));
+      this.nameTask  =  null;
+    }
   }
 
   onClickUpdateStatus(task:Task,statusId:number){

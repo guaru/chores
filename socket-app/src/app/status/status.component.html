@@ -1,6 +1,6 @@
 <div class="row" *ngFor="let st of status">
   <div class="col-12">
-    <h5  class="top2 {{st.color?.text}}" >
+    <!-- <h5  class="top2 {{st.color?.text}}" >
        <span id="{{st.id}}" class="status-title"> <i class="fa fa-chevron-down"></i></span>
         {{st.name}}
     </h5>
@@ -8,6 +8,36 @@
     <div id="task_{{st.id}}">
         <app-task  [status]="st" [allstatus]="status" [users]="users" [statusService]="statusService" (editStatusTask)="editStatusTask($event)"></app-task>
     </div>
-      
+  -->
+  <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h5  class="m-0 top2 {{st.color?.text}}" >
+              <span id="{{st.id}}" class="status-title"> <i class="fa fa-chevron-down"></i></span>
+               {{st.name}}
+           </h5>
+  
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);">
+              <div class="dropdown-header">OPCIONES:</div>
+              <a class="dropdown-item" href="#" >Eliminar</a>
+              <a class="dropdown-item" href="#">Archivar</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#"></a>
+            </div>
+          </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body" id="task_{{st.id}}">
+                <app-task  [status]="st" [allstatus]="status" [users]="users" [statusService]="statusService" (editStatusTask)="editStatusTask($event)"></app-task>
+            
+        </div>
+    </div> 
   </div>
 </div>
+
+
+

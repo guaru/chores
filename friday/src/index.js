@@ -59,10 +59,6 @@ io.on("connection", socket => {
       safeJoin(docId);
       findOne(docId).then(data=>{
         socket.emit("tablero", data);
-       /* findStatusByProject(docId).then(data=>{
-          console.log('TABLERO',data);
-          socket.emit("status", data);
-        });*/
       });
 
     });
@@ -92,10 +88,14 @@ io.on("connection", socket => {
     socket.on("addTask",task =>{
         createTask(task).then(newTask=>{
           findOneTask(newTask.id).then(data=>{
-           // socket.emit("status", data);
-            //socket.to(newTask.projectId).emit("newTask", data);
-            io.to(newTask.projectId).emit("newTask",data);
+            io.emit("newTask",data);
           });
+        });
+    });
+
+    socket.on("notifyTask",taskId =>{
+        findOneTask(taskId).then(data=>{
+          io.emit("changeTask",{task:data,beforeStatusId:data.statusId});
         });
     });
 
@@ -104,8 +104,7 @@ io.on("connection", socket => {
         const beforeStatusId  = beforeTask.statusId;
         editTask(task).then(newTask=>{
           findOneTask(task.id).then(data=>{
-             //socket.to(task.projectId).emit("changeTask", {task:data,beforeStatusId:beforeStatusId});
-             io.to(task.projectId).emit("changeTask",{task:data,beforeStatusId:beforeStatusId});
+             io.emit("changeTask",{task:data,beforeStatusId:beforeStatusId});
            });
         });
       });
@@ -121,7 +120,7 @@ io.on("connection", socket => {
 
 //import routes
 app.use('/api/tablero/',projectRoutes);
-
+app.use('/api/task/',taskRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/socket-app/index.html'));

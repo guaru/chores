@@ -16,40 +16,41 @@ import { TaskVO } from '../models/task-vo';
 export class StatusComponent implements OnInit {
   @Input('tablero') tablero:Tablero;
   @Input('users') users:ProjectUser[];
-  status: Status[];
+  @Input('status') status: Status[];
   private _stsSub: Subscription;
   private _stsSubChange: Subscription;
+  private _stsSubLoadStatus : Subscription;
   constructor(private statusService:StatusService) { }
 
   ngOnInit() {
     this._stsSub =  this.statusService.newTask.pipe().subscribe(data=>{
         let task:Task =data;
-       
+        if(task.projectId === this.tablero.id)
+          this.addTask(task);
     });
     
     this._stsSubChange = this.statusService.changeTask.pipe().subscribe(data=>{
         let taskvo:TaskVO =data;
-      
-        console.log(taskvo);
-        if(taskvo.beforeStatusId === taskvo.task.statusId)
-        {
-         this.updateTask(taskvo.task);
-        }else
-        {
-          let newStatusId =  taskvo.task.statusId;
-          taskvo.task.statusId =  taskvo.beforeStatusId;
-          this.removeTask(taskvo.task);
-          taskvo.task.statusId =  newStatusId;
-          this.addTask(taskvo.task);
-        }
-        
+        if(taskvo.task.projectId === this.tablero.id){
+          if(taskvo.beforeStatusId === taskvo.task.statusId)
+          {
+           this.updateTask(taskvo.task);
+          }else
+          {
+            let newStatusId =  taskvo.task.statusId;
+            taskvo.task.statusId =  taskvo.beforeStatusId;
+            this.removeTask(taskvo.task);
+            taskvo.task.statusId =  newStatusId;
+            this.addTask(taskvo.task);
+          }
+        } 
     });
 
-
-    this.statusService.findAllStatus(this.tablero.id).subscribe(data=>{
-        this.status =  data.json();
-    });
+    
   }
+
+
+
 
   addTask(task:Task)
   {

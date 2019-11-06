@@ -47,7 +47,12 @@
     font-size: 0.8rem;
     font-weight: 600;
    }
-
+   .w-2{
+        width: 2%;
+   }
+   .w-5{
+    width: 5%;
+    }
     .w-10{
        width: 10%;
     }
@@ -197,3 +202,14 @@
     }
 }
 
+.text-comment{
+    font-size: 12px;
+}
+
+.task-badge{
+    span{
+      position: absolute;
+      margin-left: -6px;
+      margin-top: -4px;
+    }
+}

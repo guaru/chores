@@ -24,6 +24,9 @@ const Task =  db.define('tasks',{
     },
     devuserId:{
         type : Sequelize.INTEGER
+    },
+    complements:{
+        type:Sequelize.INTEGER
     }
 }, {
     freezeTableName:true,

@@ -59,18 +59,19 @@ function _editTask() {
   _editTask = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(_task) {
-    var id, name, status, project, statusId, enddate, owneruserId, devuserId, task;
+    var id, name, statusId, enddate, owneruserId, devuserId, complements, task;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            id = _task.id, name = _task.name, status = _task.status, project = _task.project, statusId = _task.statusId, enddate = _task.enddate, owneruserId = _task.owneruserId, devuserId = _task.devuserId;
+            id = _task.id, name = _task.name, statusId = _task.statusId, enddate = _task.enddate, owneruserId = _task.owneruserId, devuserId = _task.devuserId, complements = _task.complements;
             task = _tasks["default"].update({
               name: name,
               statusId: statusId,
               enddate: enddate,
               owneruserId: owneruserId,
-              devuserId: devuserId
+              devuserId: devuserId,
+              complements: complements
             }, {
               where: {
                 id: id

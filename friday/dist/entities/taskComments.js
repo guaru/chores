@@ -9,34 +9,20 @@ var _sequelize = _interopRequireDefault(require("sequelize"));
 
 var _database = require("../database/database");
 
-var _users = require("../entities/users");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var Task = _database.db.define('tasks', {
+var TaskComment = _database.db.define('taskcomments', {
   id: {
     type: _sequelize["default"].INTEGER,
     primaryKey: true
   },
-  enddate: {
+  createdate: {
     type: _sequelize["default"].DATE
   },
-  name: {
+  description: {
     type: _sequelize["default"].TEXT
   },
-  projectId: {
-    type: _sequelize["default"].INTEGER
-  },
-  statusId: {
-    type: _sequelize["default"].INTEGER
-  },
-  owneruserId: {
-    type: _sequelize["default"].INTEGER
-  },
-  devuserId: {
-    type: _sequelize["default"].INTEGER
-  },
-  complements: {
+  taskId: {
     type: _sequelize["default"].INTEGER
   }
 }, {
@@ -44,5 +30,5 @@ var Task = _database.db.define('tasks', {
   timestamps: false
 });
 
-var _default = Task;
+var _default = TaskComment;
 exports["default"] = _default;

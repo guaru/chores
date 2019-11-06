@@ -171,9 +171,9 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
 //desarrollo
-// export const BASE_URL  = "http://localhost:9080/"; 
+var BASE_URL = "http://localhost:9080/";
 //produccion
-var BASE_URL = window.location.protocol + "//" + window.location.host + "/";
+//export const BASE_URL  = window.location.protocol +"//"+window.location.host+"/";
 
 
 /***/ }),
@@ -265,7 +265,7 @@ var DocumentListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = " <!-- Page Heading -->\r\n <div class=\"d-sm-flex align-items-center justify-content-between mb-4\" *ngIf=\"tablero.id != ''\">\r\n        <h1 class=\"h3 mb-0 text-gray-800 w-75\">\r\n              <input type=\"text\" class=\"form-control input-title-edit\" [(ngModel)]=\"tablero.name\" (change)=\"onChangeTablero()\" >      \r\n        </h1>\r\n        <a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-download fa-sm text-white-50\"></i> Generate Report</a>\r\n</div>\r\n\r\n<app-status *ngIf=\"tablero.id != ''\" [tablero]=\"tablero\" [users]=\"users\"  ></app-status>"
+module.exports = " <!-- Page Heading -->\r\n <div class=\"d-sm-flex align-items-center justify-content-between mb-4\" *ngIf=\"tablero.id != ''\">\r\n        <h1 class=\"h3 mb-0 text-gray-800 w-75\">\r\n              <input type=\"text\" class=\"form-control input-title-edit\" [(ngModel)]=\"tablero.name\" (change)=\"onChangeTablero()\" >      \r\n        </h1>\r\n        <a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm\"><i class=\"fas fa-download fa-sm text-white-50\"></i> Generate Report</a>\r\n</div>\r\n\r\n<app-status *ngIf=\"tablero.id != ''\" [tablero]=\"tablero\" [users]=\"users\" [status]=\"status\"  ></app-status>"
 
 /***/ }),
 
@@ -294,6 +294,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_document_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../service/document.service */ "./src/app/service/document.service.ts");
 /* harmony import */ var _service_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../service/user.service */ "./src/app/service/user.service.ts");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _service_status_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/status.service */ "./src/app/service/status.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -307,20 +308,34 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var DocumentComponent = /** @class */ (function () {
-    function DocumentComponent(documentService, userService) {
+    function DocumentComponent(documentService, userService, statusService) {
         this.documentService = documentService;
         this.userService = userService;
+        this.statusService = statusService;
+        this.status = [];
     }
     DocumentComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._docSub = this.documentService.currentDocument.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])({ id: '', name: '' })).subscribe(function (document) {
             _this.tablero = document;
             if (_this.tablero.id) {
-                _this.userService.findUsersByTablero(_this.tablero.id).subscribe(function (data) {
-                    _this.users = data.json();
-                });
+                _this.loadUsers();
+                _this.loadStatus();
             }
+        });
+    };
+    DocumentComponent.prototype.loadUsers = function () {
+        var _this = this;
+        this.userService.findUsersByTablero(this.tablero.id).subscribe(function (data) {
+            _this.users = data.json();
+        });
+    };
+    DocumentComponent.prototype.loadStatus = function () {
+        var _this = this;
+        this.statusService.findAllStatus(this.tablero.id).subscribe(function (data) {
+            _this.status = data.json();
         });
     };
     DocumentComponent.prototype.ngOnDestroy = function () {
@@ -338,7 +353,7 @@ var DocumentComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./document.component.html */ "./src/app/document/document.component.html"),
             styles: [__webpack_require__(/*! ./document.component.scss */ "./src/app/document/document.component.scss")]
         }),
-        __metadata("design:paramtypes", [_service_document_service__WEBPACK_IMPORTED_MODULE_1__["DocumentService"], _service_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+        __metadata("design:paramtypes", [_service_document_service__WEBPACK_IMPORTED_MODULE_1__["DocumentService"], _service_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _service_status_service__WEBPACK_IMPORTED_MODULE_4__["StatusService"]])
     ], DocumentComponent);
     return DocumentComponent;
 }());
@@ -354,7 +369,7 @@ var DocumentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n    <div class=\"input-task\">\n      <textarea class=\"form-control input-title-edit\" maxlength=\"150\"   [(ngModel)]=\"task.name\"\n      (change)=\"onChangeUpdateTask()\"></textarea>\n    </div>\n</div>\n\n<div class=\"modal-body\">\n   <!-- Nav tabs -->\n<ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\">\n      <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#comments\"><i class=\"fa fa-comments\"></i></a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" data-toggle=\"tab\" href=\"#files\"><i class=\"fa fa-paperclip\"></i></a>\n    </li>\n  </ul>\n  \n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <div class=\"tab-pane container active\" id=\"comments\">...</div>\n    <div class=\"tab-pane container fade\" id=\"files\">...</div>\n  \n  </div>\n  </div>\n  \n    <!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->\n  "
+module.exports = "<div class=\"modal-header\">\n  <div class=\"input-task\">\n    <textarea class=\"form-control input-title-edit\" maxlength=\"150\" [(ngModel)]=\"task.name\"\n      (change)=\"onChangeUpdateTask()\"></textarea>\n  </div>\n</div>\n\n<div class=\"modal-body\">\n  <!-- Nav tabs -->\n  <ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\">\n      <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#comments\"><i class=\"fa fa-comments\"></i></a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" data-toggle=\"tab\" href=\"#files\"><i class=\"fa fa-paperclip\"></i></a>\n    </li>\n  </ul>\n\n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <div class=\"tab-pane container active\" id=\"comments\">\n      <div class=\"row top2\">\n        <div class=\"col-12\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Agregar comentario\" [(ngModel)]=\"comment\" (keyup.enter)=\"addComment()\">\n          </div>\n        </div>\n        <div  class=\"col-12\" *ngFor=\"let item of taskComments\">\n           <div class=\"card shadow mb-4\">\n                <!-- Card Header - Dropdown -->\n                <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n                    <h6 class=\"m-0 font-weight-bold text-primary\"><small>{{item.createdate |  date:'dd/MM/yyyy HH:mm'}}</small></h6>\n                    <div class=\"dropdown no-arrow\">\n                      <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n                      </a>\n                      <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\" x-placement=\"bottom-end\" style=\"position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);\">\n                        <div class=\"dropdown-header\">OPCIONES:</div>\n                        <a class=\"dropdown-item\" href=\"#\" (click)=\"deleteComment(item)\">Eliminar</a>\n                        <a class=\"dropdown-item\" href=\"#\">Archivar</a>\n                        <div class=\"dropdown-divider\"></div>\n                        <a class=\"dropdown-item\" href=\"#\"></a>\n                      </div>\n                    </div>\n                  </div>\n                  <!-- Card Body -->\n                  <div class=\"card-body\">\n                        <p class=\"text-comment\">{{ item.description}}</p>\n                  </div>\n              </div> \n        </div>\n        <div class=\"col-12\" *ngIf=\"load\">\n          <p class=\"text-secundary\">Cargando comentarios...</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"tab-pane container fade\" id=\"files\">...</div>\n\n  </div>\n</div>\n\n<!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->"
 
 /***/ }),
 
@@ -383,6 +398,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var _models_task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/task */ "./src/app/models/task.ts");
 /* harmony import */ var _service_status_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../service/status.service */ "./src/app/service/status.service.ts");
+/* harmony import */ var _service_task_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/task.service */ "./src/app/service/task.service.ts");
+/* harmony import */ var _models_taskCommet__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/taskCommet */ "./src/app/models/taskCommet.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -396,15 +413,45 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ModalComponent = /** @class */ (function () {
-    function ModalComponent(activeModal) {
+    function ModalComponent(activeModal, taskService) {
         this.activeModal = activeModal;
+        this.taskService = taskService;
         this.title = "Information";
+        this.taskComments = [];
+        this.comment = null;
+        this.load = false;
     }
     ModalComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.load = true;
+        this.taskService.finComments(this.task.id).subscribe(function (data) {
+            _this.taskComments = data.json();
+            _this.load = false;
+        }, function (error) { return _this.load = false; });
     };
     ModalComponent.prototype.onChangeUpdateTask = function () {
         this.statusService.editTask(this.task);
+    };
+    ModalComponent.prototype.addComment = function () {
+        var _this = this;
+        if (this.comment != null && this.comment.trim() != '') {
+            var taskComment = new _models_taskCommet__WEBPACK_IMPORTED_MODULE_5__["TaskComment"](null, this.comment, null, this.task.id);
+            this.taskService.createComment(taskComment).subscribe(function (data) {
+                _this.comment = null;
+                _this.taskComments = data.json();
+                _this.statusService.notifyTask(_this.task.id);
+            });
+        }
+    };
+    ModalComponent.prototype.deleteComment = function (taskComment) {
+        var _this = this;
+        this.taskService.deleteComment(taskComment.id).subscribe(function (data) {
+            _this.taskComments = _this.taskComments.filter(function (x) { return x.id != taskComment.id; });
+            _this.statusService.notifyTask(_this.task.id);
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -424,7 +471,8 @@ var ModalComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./modal.component.html */ "./src/app/modal/modal.component.html"),
             styles: [__webpack_require__(/*! ./modal.component.scss */ "./src/app/modal/modal.component.scss")]
         }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"]])
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
+            _service_task_service__WEBPACK_IMPORTED_MODULE_4__["TaskService"]])
     ], ModalComponent);
     return ModalComponent;
 }());
@@ -489,7 +537,7 @@ var Tablero = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
 var Task = /** @class */ (function () {
-    function Task(id, name, enddate, status, project, statusId, owneruserId, devuserId, owneruser, devuser, beforeStatusId) {
+    function Task(id, name, enddate, status, project, statusId, owneruserId, devuserId, owneruser, devuser, beforeStatusId, projectId, complements) {
         this.id = id;
         this.name = name;
         this.enddate = enddate;
@@ -501,8 +549,35 @@ var Task = /** @class */ (function () {
         this.owneruser = owneruser;
         this.devuser = devuser;
         this.beforeStatusId = beforeStatusId;
+        this.projectId = projectId;
+        this.complements = complements;
     }
     return Task;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/taskCommet.ts":
+/*!**************************************!*\
+  !*** ./src/app/models/taskCommet.ts ***!
+  \**************************************/
+/*! exports provided: TaskComment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskComment", function() { return TaskComment; });
+var TaskComment = /** @class */ (function () {
+    function TaskComment(id, description, createdate, taskId, task) {
+        this.id = id;
+        this.description = description;
+        this.createdate = createdate;
+        this.taskId = taskId;
+        this.task = task;
+    }
+    return TaskComment;
 }());
 
 
@@ -606,6 +681,9 @@ var StatusService = /** @class */ (function () {
     StatusService.prototype.editTask = function (task) {
         this.socket.emit('editTask', task);
     };
+    StatusService.prototype.notifyTask = function (taskId) {
+        this.socket.emit('notifyTask', taskId);
+    };
     StatusService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -613,6 +691,57 @@ var StatusService = /** @class */ (function () {
         __metadata("design:paramtypes", [ngx_socket_io__WEBPACK_IMPORTED_MODULE_1__["Socket"], _angular_http__WEBPACK_IMPORTED_MODULE_2__["Http"]])
     ], StatusService);
     return StatusService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/service/task.service.ts":
+/*!*****************************************!*\
+  !*** ./src/app/service/task.service.ts ***!
+  \*****************************************/
+/*! exports provided: TaskService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskService", function() { return TaskService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./src/app/config.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var TaskService = /** @class */ (function () {
+    function TaskService(http) {
+        this.http = http;
+    }
+    TaskService.prototype.createComment = function (taskComment) {
+        return this.http.post(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/createComment", taskComment);
+    };
+    TaskService.prototype.finComments = function (taskId) {
+        return this.http.get(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/findComments/" + taskId);
+    };
+    TaskService.prototype.deleteComment = function (commentId) {
+        return this.http.delete(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/deleteComment/" + commentId);
+    };
+    TaskService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_http__WEBPACK_IMPORTED_MODULE_1__["Http"]])
+    ], TaskService);
+    return TaskService;
 }());
 
 
@@ -671,7 +800,7 @@ var UserService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" *ngFor=\"let st of status\">\n  <div class=\"col-12\">\n    <h5  class=\"top2 {{st.color?.text}}\" >\n       <span id=\"{{st.id}}\" class=\"status-title\"> <i class=\"fa fa-chevron-down\"></i></span>\n        {{st.name}}\n    </h5>\n    <hr/>\n    <div id=\"task_{{st.id}}\">\n        <app-task  [status]=\"st\" [allstatus]=\"status\" [users]=\"users\" [statusService]=\"statusService\" (editStatusTask)=\"editStatusTask($event)\"></app-task>\n    </div>\n      \n  </div>\n</div>\n"
+module.exports = "<div class=\"row\" *ngFor=\"let st of status\">\n  <div class=\"col-12\">\n    <!-- <h5  class=\"top2 {{st.color?.text}}\" >\n       <span id=\"{{st.id}}\" class=\"status-title\"> <i class=\"fa fa-chevron-down\"></i></span>\n        {{st.name}}\n    </h5>\n    <hr/>\n    <div id=\"task_{{st.id}}\">\n        <app-task  [status]=\"st\" [allstatus]=\"status\" [users]=\"users\" [statusService]=\"statusService\" (editStatusTask)=\"editStatusTask($event)\"></app-task>\n    </div>\n  -->\n  <div class=\"card shadow mb-4\">\n      <!-- Card Header - Dropdown -->\n      <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n          <h5  class=\"m-0 top2 {{st.color?.text}}\" >\n              <span id=\"{{st.id}}\" class=\"status-title\"> <i class=\"fa fa-chevron-down\"></i></span>\n               {{st.name}}\n           </h5>\n  \n          <div class=\"dropdown no-arrow\">\n            <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n              <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n            </a>\n            <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\" x-placement=\"bottom-end\" style=\"position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);\">\n              <div class=\"dropdown-header\">OPCIONES:</div>\n              <a class=\"dropdown-item\" href=\"#\" >Eliminar</a>\n              <a class=\"dropdown-item\" href=\"#\">Archivar</a>\n              <div class=\"dropdown-divider\"></div>\n              <a class=\"dropdown-item\" href=\"#\"></a>\n            </div>\n          </div>\n        </div>\n        <!-- Card Body -->\n        <div class=\"card-body\" id=\"task_{{st.id}}\">\n                <app-task  [status]=\"st\" [allstatus]=\"status\" [users]=\"users\" [statusService]=\"statusService\" (editStatusTask)=\"editStatusTask($event)\"></app-task>\n            \n        </div>\n    </div> \n  </div>\n</div>\n\n\n\n"
 
 /***/ }),
 
@@ -719,23 +848,23 @@ var StatusComponent = /** @class */ (function () {
         var _this = this;
         this._stsSub = this.statusService.newTask.pipe().subscribe(function (data) {
             var task = data;
+            if (task.projectId === _this.tablero.id)
+                _this.addTask(task);
         });
         this._stsSubChange = this.statusService.changeTask.pipe().subscribe(function (data) {
             var taskvo = data;
-            console.log(taskvo);
-            if (taskvo.beforeStatusId === taskvo.task.statusId) {
-                _this.updateTask(taskvo.task);
+            if (taskvo.task.projectId === _this.tablero.id) {
+                if (taskvo.beforeStatusId === taskvo.task.statusId) {
+                    _this.updateTask(taskvo.task);
+                }
+                else {
+                    var newStatusId = taskvo.task.statusId;
+                    taskvo.task.statusId = taskvo.beforeStatusId;
+                    _this.removeTask(taskvo.task);
+                    taskvo.task.statusId = newStatusId;
+                    _this.addTask(taskvo.task);
+                }
             }
-            else {
-                var newStatusId = taskvo.task.statusId;
-                taskvo.task.statusId = taskvo.beforeStatusId;
-                _this.removeTask(taskvo.task);
-                taskvo.task.statusId = newStatusId;
-                _this.addTask(taskvo.task);
-            }
-        });
-        this.statusService.findAllStatus(this.tablero.id).subscribe(function (data) {
-            _this.status = data.json();
         });
     };
     StatusComponent.prototype.addTask = function (task) {
@@ -773,6 +902,10 @@ var StatusComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('users'),
         __metadata("design:type", Array)
     ], StatusComponent.prototype, "users", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('status'),
+        __metadata("design:type", Array)
+    ], StatusComponent.prototype, "status", void 0);
     StatusComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-status',
@@ -795,7 +928,7 @@ var StatusComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\" (click)=\"onClickShowTask(task)\">\n            {{task.name}}\n         </td>\n         <td class=\"w-10 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user btn-shadow text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-10 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user btn-shadow text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn btn-shadow {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15 cell-input\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}\" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
+module.exports = "<table class=\"table w-100\" cellspacing=\"0\" rowspacing=\"2\" width=\"100%\">\n\n   <thead>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\"></th>\n      <th class=\"text-center\">Reporta</th>\n      <th class=\"text-center\">Atiende</th>\n      <th class=\"text-center\">Estatus</th>\n      <th class=\"text-center\">Fecha Fin</th>\n   </thead>\n   <tbody>\n      <tr class=\"bg-white\" *ngFor=\"let task of status.tasks\">\n         <td class=\"cell-task \" title=\"{{task.name}}\" (click)=\"onClickShowTask(task)\">\n            {{task.name}}\n           \n         </td>\n         <td class=\"w-2\">\n               <span class=\"task-badge\" *ngIf=\"task.complements > 0\">\n                     <i class=\"fas fa-bell fa-fw\"></i>\n                     <span class=\"badge badge-danger badge-counter\">{{task.complements}}</span><!-- Counter - Messages -->\n               </span>\n         </td>\n         <td class=\"w-5 cell-user\">\n            <i class=\"fa fa-user-circle\" *ngIf=\"task.owneruser == null\"></i>\n            <span  *ngIf=\"task.owneruser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.owneruser?.name}} {{task.owneruser?.lastname}}\">\n               {{task.owneruser?.name | slice:0:1}} {{task.owneruser?.lastname | slice:0:1}}\n            </span>\n            <div class=\"dialog-content hideMe\">\n                  <div class=\"speech-bubble-user\">\n                     <ul>\n                        <li *ngFor=\"let user of users\">\n                           <span class=\"btn item-user btn-shadow text-left\"  (click)=\"onChangeUserReporta(task,user.user)\">\n                                 <i class=\"fa fa-user-circle\"></i> {{user.user?.name}} {{user.user?.lastname}} \n                              </span>\n                        </li>\n                     </ul>\n                  </div>\n               </div>\n         </td>\n         <td class=\" w-5 cell-user\">\n               <i class=\"fa fa-user-circle\" *ngIf=\"task.devuser == null\"></i>\n               <span  *ngIf=\"task.devuser != null\" class=\"badge badge-secondary icon-user\" title=\"{{task.devuser?.name}} {{task.devuser?.lastname}}\">\n                  {{task.devuser?.name | slice:0:1}} {{task.devuser?.lastname | slice:0:1}}\n               </span>\n            <div class=\"dialog-content hideMe\">\n               <div class=\"speech-bubble-user\">\n                  <ul>\n                     <li *ngFor=\"let user of users\">\n                        <span class=\"btn item-user btn-shadow text-left\" (click)=\"onChangeUserAtiende(task,user.user)\">\n                              <i class=\"fa fa-user-circle\" ></i> {{user.user?.name}} {{user.user?.lastname}} \n                           </span>\n                     </li>\n                  </ul>\n               </div>\n            </div>\n         </td>\n         <td class=\"cell-status w-15 {{status.color?.background}} text-center text-white\">\n           <span > {{status.name}} </span>\n           <div class=\"dialog-content hideMe\">\n            <div class=\"speech-bubble \">\n               <ul>\n                  <li *ngFor=\"let st of allstatus\">\n                        <button class=\"btn btn-shadow {{st.color?.background}} w-100 text-white \" (click)=\"onClickUpdateStatus(task,st.id)\">{{st.name}}</button>\n                  </li>\n               </ul>\n              \n            </div>\n         </div>\n         \n         </td>\n         <td class=\"text-center w-15 cell-input\">\n            <input type=\"date\" class=\"form-control input-date-cell text-center {{task.enddate==null || task.enddate === ''? 'hide' : ''}}\" [(ngModel)]=\"task.enddate\" (change)=\"onChangeEndDate(task)\">\n         </td>\n      </tr>\n      <tr>\n         <td colspan=\"4\">\n            <input type=\"text\" class=\"form-control pull-left\" [(ngModel)]=\"nameTask\" placeholder=\"Agregar tarea\">\n         </td>\n         <td class=\"1\">\n            <button class=\"btn btn-default pull-left\" (click)=\"onClickAddTask()\">\n               <i class=\"fa fa-plus\"></i>\n            </button>\n         </td>\n      </tr>\n   </tbody>\n</table>\n\n"
 
 /***/ }),
 
@@ -849,7 +982,10 @@ var TaskComponent = /** @class */ (function () {
     TaskComponent.prototype.ngOnInit = function () {
     };
     TaskComponent.prototype.onClickAddTask = function () {
-        this.statusService.addTask(new _models_task__WEBPACK_IMPORTED_MODULE_3__["Task"](null, this.nameTask, null, this.status, this.status.project));
+        if (this.nameTask != '') {
+            this.statusService.addTask(new _models_task__WEBPACK_IMPORTED_MODULE_3__["Task"](null, this.nameTask, null, this.status, this.status.project));
+            this.nameTask = null;
+        }
     };
     TaskComponent.prototype.onClickUpdateStatus = function (task, statusId) {
         task.statusId = statusId;
