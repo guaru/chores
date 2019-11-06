@@ -171,9 +171,9 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
 //desarrollo
-var BASE_URL = "http://localhost:9080/";
+// export const BASE_URL  = "http://localhost:9080/"; 
 //produccion
-//export const BASE_URL  = window.location.protocol +"//"+window.location.host+"/";
+var BASE_URL = window.location.protocol + "//" + window.location.host + "/";
 
 
 /***/ }),
