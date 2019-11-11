@@ -23,7 +23,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require('body-parser');
-
+const fileUpload = require('express-fileupload');
 //middleware
 app.use(morgan('dev'));
 app.use((req, res, next) => {
@@ -33,6 +33,7 @@ app.use((req, res, next) => {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+app.use(fileUpload());
 app.use(json());
 
 app.use(bodyParser.urlencoded({ extended: false }));

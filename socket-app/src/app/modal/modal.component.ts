@@ -1,10 +1,13 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { Task } from '../models/task';
 import { StatusService } from '../service/status.service';
 import { TaskService } from '../service/task.service';
 import { TaskComment } from '../models/taskCommet';
-
+import { IfStmt } from '@angular/compiler';
+import {FILE_SIZE_UPLOAD,BASE_URL} from '../config';
+import { TaskFile } from '../models/taskFile';
+import { DomSanitizer} from '@angular/platform-browser';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -15,12 +18,19 @@ export class ModalComponent implements OnInit {
   @Input() title = `Information`;
   @Input() task: Task;
   @Input('statusService') statusService:StatusService; 
+  @ViewChild('inputFile') inputFile: ElementRef;
   taskComments : TaskComment[] = [];
+  taskFiles : TaskFile []  = []
   comment:string = null;
   load:boolean = false;
+  fileUpload:File = null;
+  BASE_URL = BASE_URL;
+  msg: any;
+
   constructor(
     public activeModal: NgbActiveModal,
-    public taskService:TaskService
+    public taskService:TaskService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -29,6 +39,12 @@ export class ModalComponent implements OnInit {
            this.taskComments = data.json();
            this.load = false;
        },error=> this.load = false);
+
+       this.taskService.findFiles(this.task.id).subscribe(data=>{
+          this.taskFiles =  data.json();
+       });
+
+       
   }
 
   onChangeUpdateTask(){
@@ -53,5 +69,36 @@ export class ModalComponent implements OnInit {
           this.statusService.notifyTask(this.task.id);
       });
   }
+
+  handleFileInput(files: FileList){
+      this.fileUpload =  files.item(0);
+  }
   
+  onClickUploadFile(){
+    if(this.fileUpload==null )
+    {
+      this.msg = "Debe seleccionar un archivo";
+      return;
+    }
+    if( this.fileUpload.size > FILE_SIZE_UPLOAD )
+    {
+        this.msg = "El archivo no puede ser mayor a 15 MB";
+        return;
+    }
+    this.taskService.uploadFile(this.fileUpload,this.task.id).subscribe(data=>{
+       this.taskFiles =  data.json();
+       this.fileUpload  = null;
+       this.inputFile.nativeElement.value = null;
+       this.statusService.notifyTask(this.task.id);
+    });
+  }
+
+
+  onClickOpenFile(fileId:number){
+       window.open(`${BASE_URL}api/task/download/${fileId}`);
+  }
+
+  transform(id:number) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${BASE_URL}api/task/file/${id}`);
+  }
 }

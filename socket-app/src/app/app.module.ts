@@ -12,7 +12,7 @@ import { TaskComponent } from './task/task.component';
 import {BASE_URL}  from './config';
 import { ModalComponent } from './modal/modal.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-console.log("BASE_URL",BASE_URL);
+
 const config: SocketIoConfig = { url: BASE_URL, options: {} };
 
 @NgModule({

@@ -64,4 +64,6 @@ export class TaskComponent implements OnInit {
      modalRef.componentInstance.statusService =  this.statusService;
   }
 
+  
+
 }

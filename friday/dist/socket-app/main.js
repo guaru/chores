@@ -124,7 +124,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-console.log("BASE_URL", _config__WEBPACK_IMPORTED_MODULE_10__["BASE_URL"]);
 var config = { url: _config__WEBPACK_IMPORTED_MODULE_10__["BASE_URL"], options: {} };
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -164,14 +163,17 @@ var AppModule = /** @class */ (function () {
 /*!***************************!*\
   !*** ./src/app/config.ts ***!
   \***************************/
-/*! exports provided: BASE_URL */
+/*! exports provided: FILE_SIZE_UPLOAD, BASE_URL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FILE_SIZE_UPLOAD", function() { return FILE_SIZE_UPLOAD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BASE_URL", function() { return BASE_URL; });
 //desarrollo
-// export const BASE_URL  = "http://localhost:9080/"; 
+//export const BASE_URL  = "http://localhost:9080/"; 
+//BYTES
+var FILE_SIZE_UPLOAD = 15000000;
 //produccion
 var BASE_URL = window.location.protocol + "//" + window.location.host + "/";
 
@@ -369,7 +371,7 @@ var DocumentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n  <div class=\"input-task\">\n    <textarea class=\"form-control input-title-edit\" maxlength=\"150\" [(ngModel)]=\"task.name\"\n      (change)=\"onChangeUpdateTask()\"></textarea>\n  </div>\n</div>\n\n<div class=\"modal-body\">\n  <!-- Nav tabs -->\n  <ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\">\n      <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#comments\"><i class=\"fa fa-comments\"></i></a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" data-toggle=\"tab\" href=\"#files\"><i class=\"fa fa-paperclip\"></i></a>\n    </li>\n  </ul>\n\n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <div class=\"tab-pane container active\" id=\"comments\">\n      <div class=\"row top2\">\n        <div class=\"col-12\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Agregar comentario\" [(ngModel)]=\"comment\" (keyup.enter)=\"addComment()\">\n          </div>\n        </div>\n        <div  class=\"col-12\" *ngFor=\"let item of taskComments\">\n           <div class=\"card shadow mb-4\">\n                <!-- Card Header - Dropdown -->\n                <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n                    <h6 class=\"m-0 font-weight-bold text-primary\"><small>{{item.createdate |  date:'dd/MM/yyyy HH:mm'}}</small></h6>\n                    <div class=\"dropdown no-arrow\">\n                      <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n                      </a>\n                      <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\" x-placement=\"bottom-end\" style=\"position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);\">\n                        <div class=\"dropdown-header\">OPCIONES:</div>\n                        <a class=\"dropdown-item\" href=\"#\" (click)=\"deleteComment(item)\">Eliminar</a>\n                        <a class=\"dropdown-item\" href=\"#\">Archivar</a>\n                        <div class=\"dropdown-divider\"></div>\n                        <a class=\"dropdown-item\" href=\"#\"></a>\n                      </div>\n                    </div>\n                  </div>\n                  <!-- Card Body -->\n                  <div class=\"card-body\">\n                        <p class=\"text-comment\">{{ item.description}}</p>\n                  </div>\n              </div> \n        </div>\n        <div class=\"col-12\" *ngIf=\"load\">\n          <p class=\"text-secundary\">Cargando comentarios...</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"tab-pane container fade\" id=\"files\">...</div>\n\n  </div>\n</div>\n\n<!--<div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h4 class=\"modal-title\">{{title}}</h4>\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <ng-content></ng-content>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n      </div>\n    </div>\n    -->"
+module.exports = "<div class=\"modal-header\">\n  <div class=\"input-task\">\n    <textarea class=\"form-control input-title-edit\" maxlength=\"150\" [(ngModel)]=\"task.name\"\n      (change)=\"onChangeUpdateTask()\"></textarea>\n  </div>\n</div>\n\n<div class=\"modal-body\">\n  <!-- Nav tabs -->\n  <ul class=\"nav nav-tabs\">\n    <li class=\"nav-item\">\n      <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#comments\"><i class=\"fa fa-comments\"></i></a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" data-toggle=\"tab\" href=\"#files\"><i class=\"fa fa-paperclip\"></i></a>\n    </li>\n  </ul>\n\n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <div class=\"tab-pane container active\" id=\"comments\">\n      <div class=\"row top2\">\n        <div class=\"col-12\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Agregar comentario\" [(ngModel)]=\"comment\" (keyup.enter)=\"addComment()\">\n          </div>\n        </div>\n        <div  class=\"col-12\" *ngFor=\"let item of taskComments\">\n           <div class=\"card shadow mb-4\">\n                <!-- Card Header - Dropdown -->\n                <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n                    <h6 class=\"m-0 font-weight-bold text-primary\"><small>{{item.createdate |  date:'dd/MM/yyyy HH:mm'}}</small></h6>\n                    <div class=\"dropdown no-arrow\">\n                      <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n                      </a>\n                      <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\" x-placement=\"bottom-end\" style=\"position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);\">\n                        <div class=\"dropdown-header\">OPCIONES:</div>\n                        <a class=\"dropdown-item\" href=\"#\" (click)=\"deleteComment(item)\">Eliminar</a>\n                        <a class=\"dropdown-item\" href=\"#\">Archivar</a>\n                        <div class=\"dropdown-divider\"></div>\n                        <a class=\"dropdown-item\" href=\"#\"></a>\n                      </div>\n                    </div>\n                  </div>\n                  <!-- Card Body -->\n                  <div class=\"card-body\">\n                        <p class=\"text-comment\">{{ item.description}}</p>\n                  </div>\n              </div> \n        </div>\n        <div class=\"col-12\" *ngIf=\"load\">\n          <p class=\"text-secundary\">Cargando comentarios...</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"tab-pane container fade\" id=\"files\">\n        <div class=\"row top2\">\n            <div class=\"col-8\">\n              <div class=\"form-group\">\n                  <label>Seleccione un archivo*</label>\n                  <input type=\"file\" #inputFile  class=\"form-control\" \n                  (change)=\"handleFileInput($event.target.files)\">\n              </div>\n            </div>\n            <div class=\"col-4 top4\">\n                <button type=\"submit\" class=\"btn  btn-primary\" (click)=\"onClickUploadFile()\">\n                  <i class=\"fa fa-upload\"></i> Subir\n                </button>\n            </div>\n        </div>\n        <div class=\"row\" *ngIf=\"msg!=null && msg!=''\">\n            <div class=\"col-12\">\n                <label  class=\"text-danger\">{{msg}}</label>\n            </div>\n        </div>\n\n        <div class=\"row top2\">\n            <div  class=\"col-12 \" *ngFor=\"let item of taskFiles\">\n                <div class=\"card shadow mb-4\">\n                     <!-- Card Header - Dropdown -->\n                     <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">\n                         <h6 class=\"m-0 font-weight-bold text-primary\">\n                           <small>\n                           <a href=\"#!\" (click)=\"onClickOpenFile(item.id)\">\n                           <i class=\"fa fa-file\"></i> {{item.namefile }}</a>\n                          </small>\n                        </h6>\n                         <div class=\"dropdown no-arrow\">\n                           <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                             <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\"></i>\n                           </a>\n                           <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\" x-placement=\"bottom-end\" style=\"position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);\">\n                             <div class=\"dropdown-header\">OPCIONES:</div>\n                             <a class=\"dropdown-item\" href=\"#\" (click)=\"deleteTask(item)\">Eliminar</a>\n                             <a class=\"dropdown-item\" href=\"#\">Archivar</a>\n                             <div class=\"dropdown-divider\"></div>\n                             <a class=\"dropdown-item\" href=\"#\"></a>\n                           </div>\n                         </div>\n                       </div>\n                       <!-- Card Body -->\n                       <div class=\"card-body\">\n                      \n                          \n                       </div>\n                   </div> \n             </div>\n        </div>\n     \n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -400,6 +402,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_status_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../service/status.service */ "./src/app/service/status.service.ts");
 /* harmony import */ var _service_task_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/task.service */ "./src/app/service/task.service.ts");
 /* harmony import */ var _models_taskCommet__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/taskCommet */ "./src/app/models/taskCommet.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config */ "./src/app/config.ts");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -415,14 +419,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ModalComponent = /** @class */ (function () {
-    function ModalComponent(activeModal, taskService) {
+    function ModalComponent(activeModal, taskService, sanitizer) {
         this.activeModal = activeModal;
         this.taskService = taskService;
+        this.sanitizer = sanitizer;
         this.title = "Information";
         this.taskComments = [];
+        this.taskFiles = [];
         this.comment = null;
         this.load = false;
+        this.fileUpload = null;
+        this.BASE_URL = _config__WEBPACK_IMPORTED_MODULE_6__["BASE_URL"];
     }
     ModalComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -431,6 +441,9 @@ var ModalComponent = /** @class */ (function () {
             _this.taskComments = data.json();
             _this.load = false;
         }, function (error) { return _this.load = false; });
+        this.taskService.findFiles(this.task.id).subscribe(function (data) {
+            _this.taskFiles = data.json();
+        });
     };
     ModalComponent.prototype.onChangeUpdateTask = function () {
         this.statusService.editTask(this.task);
@@ -453,6 +466,32 @@ var ModalComponent = /** @class */ (function () {
             _this.statusService.notifyTask(_this.task.id);
         });
     };
+    ModalComponent.prototype.handleFileInput = function (files) {
+        this.fileUpload = files.item(0);
+    };
+    ModalComponent.prototype.onClickUploadFile = function () {
+        var _this = this;
+        if (this.fileUpload == null) {
+            this.msg = "Debe seleccionar un archivo";
+            return;
+        }
+        if (this.fileUpload.size > _config__WEBPACK_IMPORTED_MODULE_6__["FILE_SIZE_UPLOAD"]) {
+            this.msg = "El archivo no puede ser mayor a 15 MB";
+            return;
+        }
+        this.taskService.uploadFile(this.fileUpload, this.task.id).subscribe(function (data) {
+            _this.taskFiles = data.json();
+            _this.fileUpload = null;
+            _this.inputFile.nativeElement.value = null;
+            _this.statusService.notifyTask(_this.task.id);
+        });
+    };
+    ModalComponent.prototype.onClickOpenFile = function (fileId) {
+        window.open(_config__WEBPACK_IMPORTED_MODULE_6__["BASE_URL"] + "api/task/download/" + fileId);
+    };
+    ModalComponent.prototype.transform = function (id) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(_config__WEBPACK_IMPORTED_MODULE_6__["BASE_URL"] + "api/task/file/" + id);
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Object)
@@ -465,6 +504,10 @@ var ModalComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('statusService'),
         __metadata("design:type", _service_status_service__WEBPACK_IMPORTED_MODULE_3__["StatusService"])
     ], ModalComponent.prototype, "statusService", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('inputFile'),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], ModalComponent.prototype, "inputFile", void 0);
     ModalComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-modal',
@@ -472,7 +515,8 @@ var ModalComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./modal.component.scss */ "./src/app/modal/modal.component.scss")]
         }),
         __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"],
-            _service_task_service__WEBPACK_IMPORTED_MODULE_4__["TaskService"]])
+            _service_task_service__WEBPACK_IMPORTED_MODULE_4__["TaskService"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_7__["DomSanitizer"]])
     ], ModalComponent);
     return ModalComponent;
 }());
@@ -734,6 +778,17 @@ var TaskService = /** @class */ (function () {
     };
     TaskService.prototype.deleteComment = function (commentId) {
         return this.http.delete(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/deleteComment/" + commentId);
+    };
+    TaskService.prototype.uploadFile = function (fileToUpload, taskId) {
+        var formData = new FormData();
+        formData.append('file', fileToUpload, fileToUpload.name);
+        return this.http.post(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/upload-file/" + taskId, formData);
+    };
+    TaskService.prototype.findFiles = function (taskId) {
+        return this.http.get(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/findFiles/" + taskId);
+    };
+    TaskService.prototype.download = function (fileId) {
+        return this.http.get(_config__WEBPACK_IMPORTED_MODULE_2__["BASE_URL"] + "api/task/download/" + fileId);
     };
     TaskService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

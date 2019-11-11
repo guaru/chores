@@ -54,23 +54,61 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane container fade" id="files">...</div>
+    <div class="tab-pane container fade" id="files">
+        <div class="row top2">
+            <div class="col-8">
+              <div class="form-group">
+                  <label>Seleccione un archivo*</label>
+                  <input type="file" #inputFile  class="form-control" 
+                  (change)="handleFileInput($event.target.files)">
+              </div>
+            </div>
+            <div class="col-4 top4">
+                <button type="submit" class="btn  btn-primary" (click)="onClickUploadFile()">
+                  <i class="fa fa-upload"></i> Subir
+                </button>
+            </div>
+        </div>
+        <div class="row" *ngIf="msg!=null && msg!=''">
+            <div class="col-12">
+                <label  class="text-danger">{{msg}}</label>
+            </div>
+        </div>
+
+        <div class="row top2">
+            <div  class="col-12 " *ngFor="let item of taskFiles">
+                <div class="card shadow mb-4">
+                     <!-- Card Header - Dropdown -->
+                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                         <h6 class="m-0 font-weight-bold text-primary">
+                           <small>
+                           <a href="#!" (click)="onClickOpenFile(item.id)">
+                           <i class="fa fa-file"></i> {{item.namefile }}</a>
+                          </small>
+                        </h6>
+                         <div class="dropdown no-arrow">
+                           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                           </a>
+                           <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);">
+                             <div class="dropdown-header">OPCIONES:</div>
+                             <a class="dropdown-item" href="#" (click)="deleteTask(item)">Eliminar</a>
+                             <a class="dropdown-item" href="#">Archivar</a>
+                             <div class="dropdown-divider"></div>
+                             <a class="dropdown-item" href="#"></a>
+                           </div>
+                         </div>
+                       </div>
+                       <!-- Card Body -->
+                       <div class="card-body">
+                      
+                          
+                       </div>
+                   </div> 
+             </div>
+        </div>
+     
+    </div>
 
   </div>
 </div>
-
-<!--<div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{{title}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ng-content></ng-content>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-      </div>
-    </div>
-    -->

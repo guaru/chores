@@ -22,5 +22,19 @@ export class TaskService {
   deleteComment(commentId:number):Observable<Response>{
     return this.http.delete(`${BASE_URL}api/task/deleteComment/${commentId}`);
   }
+
+  uploadFile(fileToUpload: File,taskId:Number): Observable<Response> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    return this.http.post(`${BASE_URL}api/task/upload-file/${taskId}`, formData);
+ }
    
+ findFiles(taskId:number):Observable<Response>{
+  return this.http.get(`${BASE_URL}api/task/findFiles/${taskId}`);
+ }
+
+ download(fileId:number){
+  return this.http.get(`${BASE_URL}api/task/download/${fileId}`);
+ }
+
 }
