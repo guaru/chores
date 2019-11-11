@@ -40,7 +40,9 @@ var io = require('socket.io')(http);
 
 var path = require('path');
 
-var bodyParser = require('body-parser'); //middleware
+var bodyParser = require('body-parser');
+
+var fileUpload = require('express-fileupload'); //middleware
 
 
 app.use((0, _morgan["default"])('dev'));
@@ -51,6 +53,7 @@ app.use(function (req, res, next) {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+app.use(fileUpload());
 app.use((0, _express.json)());
 app.use(bodyParser.urlencoded({
   extended: false
