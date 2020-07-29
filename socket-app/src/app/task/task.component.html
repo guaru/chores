@@ -1,7 +1,7 @@
 <table class="table w-100" cellspacing="0" rowspacing="2" width="100%">
 
    <thead>
-      <th class="text-center"></th>
+      <th class="text-center">#</th>
       <th class="text-center"></th>
       <th class="text-center">Reporta</th>
       <th class="text-center">Atiende</th>
@@ -10,6 +10,9 @@
    </thead>
    <tbody>
       <tr class="bg-white" *ngFor="let task of status.tasks">
+         <td class="w-2">
+            {{task.id}}
+         </td>
          <td class="cell-task " title="{{task.name}}" (click)="onClickShowTask(task)">
             {{task.name}}
            
